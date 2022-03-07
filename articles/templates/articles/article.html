@@ -1,0 +1,82 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block styles %}
+<!--  Styles For Input Article ( Math and Editor )  -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.2/dist/katex.min.css">
+<link rel="stylesheet" type="text/css" href="{% static 'styles/editor.css' %}">
+{% endblock %}
+{% block title %}{{ article.title }}{% endblock %}
+{% block content %}
+<main class="p-3">
+	<section class="container-fluid container-md border p-3 rounded">
+		<!--  Article  -->
+		<div class="row my-3 justify-content-center">
+			<!--  Article Image  -->
+			<img src="{{ article.image.url }}" alt="{{ article.image.url }}">
+			<div class="text-center mt-3 d-flex flex-column">
+				<!--  Article Title  -->
+				<h1 class="fs-2 fw-bold my-2 text-justify mx-2">{{ article.title }}</h1>
+				<!--  Article Info  -->
+				<small class="text-muted">
+					<i class="fa fa-pen"></i> {{ article.user.first_name }} {{ article.user.last_name }} | 
+					<i class="fa fa-eye"></i> {{ article.view_count }} | 
+					<i class="fa fa-clock"></i> {{ article.date }}
+				</small>
+			</div>
+			<!--  Article Content  -->
+			<div class="fw-normal ql-editor" dir="ltr">{{ article.content|safe }}</div>
+			{% if user.is_authenticated and user.username == article.user.username %}
+			<!--  Edit Article  -->
+			<form class="mb-2 pointer text-end" method="POST" action="{% url 'edit-article' %}" name="edit-article">
+				{% csrf_token %}
+				<input type="hidden" name="get-article" id="get-article" value="{{ article.title }}">
+				<button class="btn bg-transparent border-0 text-reset" type="submit"><i class="fa fa-pen"></i> ویرایش مقاله</button>
+			</form>
+  			{% endif %}
+		</div>
+	</section>
+	<section class="container-fluid container-md border p-3 rounded my-3">
+			{% if user.is_authenticated %}
+			<!--  Form For Comment  -->
+			<form dir="ltr" method="POST" action="{% url 'create-comment-article' %}">
+				{% csrf_token %}
+	    		<div id="editor" class="fs-6 h-auto fw-normal"></div>
+				<input type="hidden" name="input-blog" id="input-blog">
+				<input type="hidden" name="input-title" id="input-title" value="{{ article.title }}">
+				<input type="hidden" name="input-comment-slug" id="input-comment-slug" value="{{ article.slug }}">
+				<div class="text-end mt-2">
+					<button class="btn btn-primary" type="submit" name="input-submit">ثبت پاسخ</button>
+				</div>
+	    	</form>
+	    	{% endif %}
+	    	{% if comments %}
+	    	<!--  Comments  -->
+			{% for comment in comments %}
+			<!--  Comment Item  -->
+			<div class="container-fluid container-md border p-3 rounded mt-3 fw-bold">
+				<!--  Comment Info  -->
+				<i class="fa fa-user"></i> {{ comment.user.first_name }} {{ comment.user.last_name }} گفته است : ( در {{ comment.date }} )<hr>
+				<!--  Comemnt Body  -->
+				<div class="fw-normal ql-editor reset-size-editor p-1" dir="ltr">
+					{{ comment.comment|safe }}
+				</div>
+			</div>
+			{% endfor %}
+			{% else %}
+			<div class="alert alert-primary mt-3">نظری وجود ندارد. شما اولین نفر باشید!</div>
+			{% endif %}
+		</section>
+</main>
+{% endblock %}
+{% block scripts %}
+<!--  Scripts For Input Comment And etg ( Math and Editor and Validate and Show )  -->
+<script type="text/javascript" src="{% static 'scripts/editor.js' %}"></script>
+<script type="text/javascript" src="{% static 'scripts/custom.js' %}"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.15.2/dist/katex.min.js"></script>
+<script>
+	var iamges = document.querySelectorAll('main img');
+	Array.prototype.slice.call(iamges).forEach(function (image) {
+		image.style.width = '100%';
+    })
+</script>
+{% endblock %}

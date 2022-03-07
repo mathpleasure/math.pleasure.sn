@@ -1,0 +1,151 @@
+﻿{% load static %}
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+	<!--  Info And Links  -->
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="shortcut icon" type="Logo/png" href="{% static 'images/Logo.png' %}">
+	<!--  Styles of Project  -->
+	<link rel="stylesheet" type="text/css" href="{% static 'styles/icon.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'styles/main.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'styles/style.css' %}">
+	{% block styles %}{% endblock %}
+	<!--  Title Page  -->
+	<title>{% block title %}{% endblock %} | لذت ریاضی</title>
+</head>
+<!--  Body of Page  -->
+<body>
+	<!--  Header Of Project  -->
+	<header class="navbar-light border-bottom">
+		<nav class="navbar navbar-expand-lg">
+			<div class="container-fluid align-items-baseline">
+				<!--  Logo of Site  -->
+				<a class="navbar-brand fw-bold p-1" href="{% url 'home' %}" id="brand" title="لذت ریاضی">
+					<img src="{% static 'images/Logo.png' %}" alt="Logo" class="d-inline-block brand-images me-1"> لذت ریاضی
+				</a>
+				<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#menu"><span class="navbar-toggler-icon"></span></button>
+				<!--  Mneu  -->
+				<div class="collapse navbar-collapse align-items-baseline mt-1" id="menu">
+					<!--  Right Menu  -->
+					<ul class="navbar-nav me-auto mb-2 mb-lg-0">
+						<li class="nav-item me-1"><a class="nav-link text-dark" href="{% url 'articles' %}" title="مقالات">مقالات</a></li>
+						<li class="nav-item me-1"><a class="nav-link text-dark" href="{% url 'topics' %}" title="پرسش و پاسخ">پرسش و پاسخ</a></li>
+						<li class="nav-item me-1"><a class="nav-link text-dark" href="#Calc" data-bs-toggle="offcanvas" title="ماشین حساب">ماشین حساب</a>	  </li>
+						<li class="nav-item me-1"><a class="nav-link text-dark" href="{% url 'contact' %}" title="ارتباط با ما">ارتباط با ما</a></li>
+						<li class="nav-item me-1"><a class="nav-link text-dark" href="{% url 'about' %}" title="درباره ما">درباره ما</a></li>
+					</ul>
+					<!--  Left Menu  -->
+					<nav class="navbar-nav justify-content-lg-end align-items-lg-center me-auto me-lg-0 mb-2 mb-lg-0" id="options">
+						{% if user.is_authenticated %}
+						<!--  User is On  -->
+						<div class="dropdown mt-2">
+							<button class="btn btn-outline-dark dropdown-toggle" type="button" data-bs-toggle="dropdown">{{ user.first_name }} {{ user.last_name }}</button>
+	      					<!--  User's Menu  -->
+	      					<ul class="dropdown-menu dropdown-menu-end">
+	        					<li><a class="dropdown-item" data-bs-toggle="modal" href="#info-user">اطلاعات کاربری</a></li>
+	        					<li><a class="dropdown-item" href="{% url 'edit-profile' %}">ویرایش اطلاعات</a></li>
+	        					<li><a class="dropdown-item" href="{% url 'create-article' %}">ایجاد مقاله جدید</a></li>
+	        					<li><a class="dropdown-item" href="{% url 'my-articles' %}">مقالات قبلی</a></li>
+	        					<li><a class="dropdown-item" href="{% url 'create-topic' %}">ایجاد پرسش جدید</a></li>
+	        					<li><a class="dropdown-item" href="{% url 'my-topics' %}">پرسش های قبلی</a></li>
+	        					<li>
+	        						<form class="dropdown-item d-inline pointer" method="POST" action="{% url 'logout' %}" name="logout">
+										{% csrf_token %}
+										<button class="bg-transparent border-0" type="submit">خروج از حساب کاربری</button>
+									</form>
+								</li>
+	      					</ul>
+      					</div>
+      					<!--  User's Info  -->
+      					<div class="modal fade" id="info-user">
+	      					<div class="modal-dialog">
+						        <div class="modal-content rounded-5 shadow">
+						            <div class="modal-header py-5 px-sm-5 pb-4 border-bottom-0">
+						                <h2 class="fw-bold mb-0">اطلاعات کاربری</h2>
+						                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+						            </div>
+						            <div class="modal-body py-5 px-sm-5 pt-0">
+										<p>نام و نام خانوادگی : {{ user.first_name }} {{ user.last_name }}</p>
+										<p>نام کاربری : <span dir="ltr">{{ user.username }}</span></p>
+										<p>ایمیل : <span class="email-size">{{ user.email }}</span></p>
+										<p>رمز عبور : رمز گذاری شده و غیر قابل نمایش است!</p>
+						            </div>
+						        </div>
+						    </div>
+						</div>
+						{% else %}
+						<!--  User is Off | Login and Sign-up  -->
+						<div class="d-flex justify-content-lg-end w-100 mt-2">
+							<a class="btn btn-outline-dark" href="{% url 'sign-up' %}">عضویت</a>
+							<a class="btn btn-dark ms-2" href="{% url 'login' %}">ورود</a>							
+						</div>
+						{% endif %}
+					</nav>
+				</div>
+			</div>
+		</nav>
+	</header>
+	<!--  Calculator  -->
+	<div class="offcanvas offcanvas-end" data-bs-scroll="false" data-bs-backdrop="false" id="Calc">
+    	<div class="offcanvas-body p-5" id="calculator">
+            <!--  Input For Calculator  -->
+            <form class="row mb-2" name="calculator" method="GET" autocomplete="off" id="#input">
+        		<input name="textinput" class="form-control py-3" placeholder="حساب کنید بر حسب رادیان" id="textinput" dir="ltr">
+            </form>
+            <!--  Buttons Of Calculator  -->
+            <div class="row row-cols-4 rounded justify-content-center py-2 fw-normal" id="buttons">
+                <button onclick="insert('')">ریست</button>
+                <button onclick="back()">حذف</button>
+                <button onclick="calc_deg()" id="deg">درجه</button> 
+                <button onclick="calc_rad()" id="rad">رادیان</button>
+                <button onclick="calc_log()">لگاریتم</button>
+                <button onclick="calc_tan()">تانژانت</button>
+                <button onclick="calc_cos()">کسینوس</button>
+                <button onclick="calc_sin()">سینوس</button>
+                <button onclick="calc_percent()">درصد</button>   
+                <button onclick="insert('**')">توان</button>
+                <button onclick="calc_sqrt()">رادیکال</button>
+                <button data-bs-dismiss="offcanvas">خروج</button>
+                <button onclick="insert('/')">÷</button>
+                <button onclick="insert(3)">3</button>
+                <button onclick="insert(2)">2</button>
+                <button onclick="insert(1)">1</button>
+                <button onclick="insert('*')">×</button>
+                <button onclick="insert(6)">6</button>
+                <button onclick="insert(5)">5</button>
+                <button onclick="insert(4)">4</button>
+                <button onclick="insert('-')">-</button>
+                <button onclick="insert(9)">9</button> 
+                <button onclick="insert(8)">8</button>
+                <button onclick="insert(7)">7</button> 
+                <button onclick="insert('+')">+</button> 
+                <button onclick="calculate()" id="calculate">=</button>
+                <button onclick="insert(0)">0</button>
+                <button onclick="insert('.')">.</button>
+            </div>
+        </div>
+    </div>
+	<!--  Content  -->
+	{% block content %}{% endblock %}
+	<!--  Footer Of Project  -->
+	<footer class="p-3">
+		<div class="container-fluid row justify-content-between p-0 mx-0">
+			<!--  Introduction  -->
+			<figure class="col-12 text-light text-justify">تمام حقوق وب سایت متعلق به سایت لذت ریاضی می باشد و به موجب هر کلاه برداری متخلفان تحت پیگرد قانونی قرار می گیرند.</figure>
+			<figure class="col-12 col-lg-10 d-inline-block text-light text-justify">ساخته شده توسط گروه مهندسان دبیرستان شهید بهشتی سبزوار : علی نظری و علی سرابی مقدم</figure>
+			<!--  Contact With Us  -->
+			<nav class="d-flex col-12 col-lg-2 justify-content-end">
+				<a href="https://splus.ir/mathematical_pl" class="me-1" title="پشتیبانی سروش"><img src="{% static 'images/Soroush.png' %}" alt="Soroush" class="image-small"></a>
+				<a href="https://www.aparat.com/mathematical.pl" class="me-1" title="پشتیبانی آپارات"><img src="{% static 'images/Aparat.png' %}" alt="Aparat" class="image-small"></a>
+				<a href="https://join.skype.com/invite/iQbF43mZTeX0" class="me-1" title="پشتیبانی اسکایپ"><img src="{% static 'images/Skype.png' %}" alt="Skype" class="image-small"></a>
+				<a href="mailto:mathematical.pleasure@gmail.com" class="me-1" title="پشتیبانی ایمیل"><img src="{% static 'images/Email.png' %}" alt="Email" class="image-small"></a>
+			</nav>
+		</div>
+	</footer>
+</body>
+<!--  Scripts ( main - calculate ) -->
+<script type="text/javascript" src="{% static 'scripts/main.js' %}"></script>
+<script type="text/javascript" src="{% static 'scripts/calculator.js' %}"></script>
+{% block scripts %}{% endblock %}
+</html>

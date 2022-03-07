@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block styles %}
+<!--  Styles For Input Topic ( Math and Editor )  -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.2/dist/katex.min.css">
+<link rel="stylesheet" type="text/css" href="{% static 'styles/editor.css' %}">
+{% endblock %}
+{% block title %}ویرایش پرسش{%endblock %}
+{% block content %}
+<main class="d-flex flex-column container-fluid my-5 fw-bold align-items-center justify-content-center">
+	{% if topic %}
+	<form class="container needs-validation" novalidate method="POST" action="{% url 'editor-topic' %}" enctype="multipart/form-data" autocomplete="off">
+		<!-- Form for Edit Topic  -->
+		{% csrf_token %}
+		<h2 class="text-center fw-bold mb-5">ویرایش پرسش :</h2>
+		{% if error %}
+		<!--  Error Send Data  -->
+		<p class="text-danger mb-2">{{ error }}</p>
+		{% endif %}
+		<!--  Input Name  -->
+		<div class="row mb-3 align-items-baseline">
+			<label for="input-name-blog" class="col-sm-2 col-form-label">عنوان پرسش :</label>
+		    <div class="col-sm-10">
+		      	<p>{{ topic.title }}</p>
+		      	<input type="hidden" name="input-name-blog" id="input-name-blog" value="{{ topic.title }}">
+		    </div>
+		 </div>
+		<!--  Input Slug  -->
+		<input type="hidden" name="input-slug" id="input-slug" value="{{ topic.slug }}">
+	  	<!--  Input Content  -->
+	  	<div class="row mb-3">
+	    	<label class="col-sm-2 col-form-label">محتوا پرسش :</label>
+	    	<div class="col-sm-10" dir="ltr">
+	    		<div id="editor" class="fs-6 h-auto fw-normal">{{ topic.content|safe }}</div>
+				<input type="hidden" name="input-blog" id="input-blog" value="{{ topic.content }}" required>
+	    	</div>
+	  	</div>
+	  	<!--  Button For Submit  -->
+	  	<button type="submit" class="btn btn-primary">ثبت پرسش</button>
+	</form>
+	{% endif %}
+</main>
+{% endblock %}
+{% block scripts %}
+<!--  Scripts For Input Topic ( Math and Editor and Validate )  -->
+<script type="text/javascript" src="{% static 'scripts/validate.js' %}"></script>
+<script type="text/javascript" src="{% static 'scripts/editor.js' %}"></script>
+<script type="text/javascript" src="{% static 'scripts/custom.js' %}"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.15.2/dist/katex.min.js"></script>
+{% endblock %}

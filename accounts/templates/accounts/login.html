@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}ورود به سایت{%endblock %}
+{% block content %}
+<main class="container-fluid row row-cols-1 row-cols-md-2 justify-content-center align-items-center m-0 g-0 mb-4 px-3 g-md-4 mt-md-1">
+    <div class="order-last order-md-first">
+        <div class="modal-content rounded-5 shadow">
+             <!--  Login  -->
+            <div class="modal-header py-5 px-sm-5 pb-4 border-bottom-0">
+                <h2 class="fw-bold mb-0">ورود به سایت</h2>
+            </div>
+            <div class="modal-body py-5 px-sm-5 pt-0">
+                <!--  Form For Login  -->
+                <form class="needs-validation" novalidate method="POST" action="{% url 'login' %}" name="login" autocomplete="off">
+                    {% csrf_token %}
+                    {% if error %}
+                    <!--  Error  -->
+                    <p class="text-danger mb-2">لطفا اطلاعات کاربری خود را درست وارد کنید.</p>
+                    {% endif %}
+                    <!--  Input Email  -->
+                    <div class="form-floating my-3">
+                        <input type="text" class="form-control rounded-4" name="input-username" id="input-username" placeholder="لطفا نام کاربری خود را اینجا وارد کنید" dir="ltr" maxlength="32" required>
+                        <label for="input-username">نام کاربری</label>
+                        <div class="invalid-feedback mt-2">
+                            لطفا نام کاربری خود را درست وارد کنید.
+                        </div>
+                    </div> 
+                    <!--  Input Password  -->
+                    <div class="form-floating mb-3">
+                        <input type="password" class="form-control rounded-4" name="input-pass" id="input-pass" placeholder="لطفا گذرواژه خود را اینجا وارد کنید" dir="ltr" maxlength="32" required>
+                        <label for="input-pass">گذرواژه</label>
+                        <div class="invalid-feedback mt-2">
+                            لطفا گذرواژه خود را درست وارد کنید.
+                        </div>
+                    </div>
+                    <!--  Submit Button  -->
+                    <button class="w-100 mb-2 btn btn-lg rounded-4 btn-primary" type="submit" name="submit" value="input-submit">ورود به سایت</button>
+                    <!--  Statute For Login  -->
+                    <small class="text-muted">با ورود به سایت ، با شرایط استفاده از سایت موافقت می کنم.</small>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="order-first order-md-last">
+        <!--  Login Image  -->
+        <img src="{% static 'images/Sign.png' %}" alt="Login" class="w-100 img-fluid">
+    </div>
+</main>
+{% endblock %}
+{% block scripts %}
+<!--  Script For Validate  -->
+<script type="text/javascript" src="{% static 'scripts/validate.js' %}"></script>
+{% endblock %}

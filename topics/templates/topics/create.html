@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block styles %}
+<!--  Styles For Input Topic ( Math and Editor )  -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.2/dist/katex.min.css">
+<link rel="stylesheet" type="text/css" href="{% static 'styles/editor.css' %}">
+{% endblock %}
+{% block title %}ایجاد پرسش جدید{%endblock %}
+{% block content %}
+<main class="d-flex flex-column container-fluid my-5 fw-bold align-items-center justify-content-center">
+	<form class="container needs-validation" novalidate method="POST" action="{% url 'create-topic' %}" autocomplete="off">
+		<!-- Form for Create Topic  -->
+		{% csrf_token %}
+		<h2 class="text-center fw-bold mb-5">ایجاد پرسش جدید :</h2>
+		{% if error %}
+		<!--  Error Send Data  -->
+		<p class="text-danger mb-2">{{ error }}</p>
+		{% endif %}
+		<!--  Input Name  -->
+		<div class="row mb-3">
+			<label for="input-name-blog" class="col-sm-2 col-form-label">عنوان پرسش :</label>
+		    <div class="col-sm-10">
+		      	<input type="text" class="form-control" id="input-name-blog" placeholder="لطفا نام مقاله خود را وارد کنید" name="input-name-blog" maxlength="200" required>
+		    </div>
+		 </div>
+		<!--  Input Slug  -->
+		<input type="hidden" name="input-slug" id="input-slug">
+		<!--  Input Content  -->
+	  	<div class="row mb-3">
+	    	<label class="col-sm-2 col-form-label">محتوا پرسش :</label>
+	    	<div class="col-sm-10" dir="ltr">
+	    		<div id="editor" class="fs-6 h-auto fw-normal"></div>
+				<input type="hidden" name="input-blog" id="input-blog" required>
+	    	</div>
+	  	</div>
+	  	<!--  Button For Submit  -->
+	  	<button type="submit" class="btn btn-primary">ثبت پرسش</button>
+	</form>
+</main>
+{% endblock %}
+{% block scripts %}
+<!--  Scripts For Input Article ( Math and Editor and Validate )  -->
+<script type="text/javascript" src="{% static 'scripts/validate.js' %}"></script>
+<script type="text/javascript" src="{% static 'scripts/editor.js' %}"></script>
+<script type="text/javascript" src="{% static 'scripts/custom.js' %}"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.15.2/dist/katex.min.js"></script>
+{% endblock %}

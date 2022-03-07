@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}پرسش و پاسخ ها{% endblock %}
+{% block content %}
+	<main class="p-3 pt-1 my-3">
+		<!--  Search For Topic  -->
+		<form class="input-group w-75 mx-auto mb-3" action="{% url 'search-topics' %}">
+			<button type="submit" class="input-group-text btn btn-outline-success">جستجو</button>
+			<input class="form-control" type="search" name="search-input" id="search-input" placeholder="در پرسش ها جستجو کنید ...">
+		</form>
+		<div class=" card-group row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-2">
+			<!--  Topics List  -->
+			{% for topic in topics %}
+			<!--  Topic Item  -->
+	  		<div class="col">
+	    		<div class="card h-100">
+	      			<!--  Title and Link  -->
+	      			<div class=" card-body p-2">
+	        			<h2 class="fw-bold text-center text-justify m-0 fs-6 pointer">
+	        				<a class="text-decoration-none text-dark" href="{% url 'topic' slug=topic.slug %}">{{ topic.title }}</a>
+	        			</h2>
+	      			</div>
+	      			{% if user.is_authenticated and user.username == topic.user.username %}
+	      			<div class="card-footer p-0">
+	      				<!--  Form Edit  -->
+	      				<small class="text-muted">
+	  						<form class="d-inline mb-2 pointer" method="POST" action="{% url 'edit-topic' %}" name="edit-topic">
+	  							{% csrf_token %}
+	  							<input type="hidden" name="get-topic" id="get-topic" value="{{ topic.title }}">
+	  							<button class="btn bg-transparent border-0 text-reset" type="submit"><i class="fa fa-pen"></i> ویرایش پرسش</button>
+	  						</form>
+						</small>
+	      			</div>
+	      			{% else %}
+	      			<div class="card-footer">
+	      				<!--  Info Topic  -->
+	      				<small class="text-muted">
+							نویسنده : {{ topic.user.first_name }} {{ topic.user.last_name }} | 
+							بازدید ها : {{ topic.view_count }}
+						</small>
+	      			</div>
+	      			{% endif %}
+	    		</div>
+	  		</div>
+	  		{% endfor %}
+		</div>
+	</main>
+{% endblock %}

@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}صفحه اصلی{%endblock %}
+{% block content %}
+<main class="container-fluid p-0">
+  <!--  Main Page  -->
+  <section class="container-fluid p-0">
+    <!--  Introduction Image  -->
+    <img src="{% static 'images/Defult-md.png' %}" class="d-none d-lg-block w-100">
+    <img src="{% static 'images/Defult.png' %}" class="d-block d-lg-none w-100">
+  </section>
+  <!--  Explanations  -->
+  <section id="expl" class="container-fluid container-md mt-5 p-3 fw-bold p-md-0">
+    <!--  Defult Brand  -->
+    <div class="row align-items-center mb-5">
+      <div class="col-12 col-md-5 mb-3 mb-md-0">
+        <img class="w-100" src="{% static 'images/All.png' %}" alt="لذت ریاضی">
+      </div>
+      <div class="col-12 col-md-7">
+        <p class="text-justify">سایت لذت ریاضی با کمک اعضا و اساتید ویژه ای که داره به شما در یادگیری عمیق و مفهومی ریاضی کمک می کنه و شما با مطالعه ی مقالات و درسنامه های سایت و دیدن جواب پرسش های خودتون و دوستانتون به راحتی و با لذت ریاضی رو فرا خواهید گرفت.</p>
+      </div>
+    </div>
+    <!--  Introduction For Calculator  -->
+    <hr class="d-md-none">
+    <div class="row align-items-center mb-5">
+      <div class="col-12 col-md-7 order-last order-md-first">
+        <p class="text-justify">ماشین حساب سایت یکی از قسمت های ویژه سایت هستش که شما با کمکش می تونید خیلی راحت آنچه رو که لازم دارید از عملیات های اصلی و ساده ریاضی تا بدست آوردن نسبت های مثلثاتی و محاسبات پیشرفته حساب کنید.</p>
+      </div>
+      <div class="col-12 col-md-5 order-first order-md-last mb-3 mb-md-0">
+        <img class="w-100" src="{% static 'images/Calculator.png' %}" alt="لذت ریاضی">
+      </div>
+    </div>
+    <!--  Introduction For Topics -->
+    <hr class="d-md-none">
+    <div class="row align-items-center mb-5">
+      <div class="col-12 col-md-5 mb-3 mb-md-0">
+        <img class="w-100" src="{% static 'images/Topic.png' %}" alt="لذت ریاضی">
+      </div>
+      <div class="col-12 col-md-7">
+        <p class="text-justify">در قسمت پرسش و پاسخ سایت میتونید خیلی راحت و ساده هر سوالی رو که داشتید بپرسید و خیلی زود جوابش رو بدست بیارید چرا که دوست های خودتون و اساتید زیادی هستن که جواب سوال های شما رو بلدن.</p>
+      </div>
+    </div>
+    <!--  Introduction For Articles  -->
+    <hr class="d-md-none">
+    <div class="row align-items-center mb-5">
+      <div class="col-12 col-md-7 order-last order-md-first">
+        <p class="text-justify">خیلی راحت می تونید تو سایت ما عضو بشید و از امکانات بی نظیر سایتمون مثل پرسش و پاسخ بهره مند بشید. همچنین با داشتن کمی بنیه و هوش ریاضی خیلی راحت می تونید تو سایت مقاله منشر کنین و از اینکار لذت ببرید!</p>
+      </div>
+      <div class="col-12 col-md-5 order-first order-md-last mb-3 mb-md-0">
+        <img class="w-100" src="{% static 'images/Workm.png' %}" alt="لذت ریاضی">
+      </div>
+    </div>
+  </section>
+</div>
+</main>
+{% endblock %}

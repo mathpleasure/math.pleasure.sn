@@ -1,0 +1,79 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block styles %}
+<!--  Styles For Input Topic ( Math and Editor )  -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.2/dist/katex.min.css">
+<link rel="stylesheet" type="text/css" href="{% static 'styles/editor.css' %}">
+{% endblock %}
+{% block title %}{{ topic.title }}{% endblock %}
+{% block content %}
+	<main class="p-3">
+		<!--  Topic  -->
+		<section class="container-fluid container-md border p-3 rounded">
+			<div class="row my-3 justify-content-center">
+				<!--  Topic Title  -->
+				<h2 class="fs-5 fw-bold mb-3 text-justify">{{ topic.title }}</h2>
+				<!--  Topic Info  -->
+				<small class="text-muted d-block text-center mt-3">
+					<i class="fa fa-pen"></i> {{ topic.user.first_name }} {{ topic.user.last_name }} | 
+					<i class="fa fa-eye"></i> {{ topic.view_count }} | 
+					<i class="fa fa-clock"></i> {{ topic.date }}
+				</small>
+    			<h1 class="text-center mt-3"></h1>
+    			<!--  Topic Content  -->
+    			<div class="fw-normal ql-editor" dir="ltr">{{ topic.content|safe }}</div>
+    			{% if user.is_authenticated and user.username == topic.user.username %}
+				<!--  Edit Article  -->
+				<form class="mb-2 pointer text-end" method="POST" action="{% url 'edit-topic' %}" name="edit-topic">
+					{% csrf_token %}
+					<input type="hidden" name="get-topic" id="get-topic" value="{{ topic.title }}">
+					<button class="btn bg-transparent border-0 text-reset" type="submit"><i class="fa fa-pen"></i> ویرایش پرسش</button>
+				</form>
+  			{% endif %}
+			</div>
+		</section>
+		<section class="container-fluid container-md border p-3 rounded my-3">
+			{% if user.is_authenticated %}
+			<!--  Form For Answer  -->
+			<form dir="ltr" method="POST" action="{% url 'create-comment-topic' %}">
+				{% csrf_token %}
+	    		<div id="editor" class="fs-6 h-auto fw-normal"></div>
+				<input type="hidden" name="input-blog" id="input-blog">
+				<input type="hidden" name="input-title" id="input-title" value="{{ topic.title }}">
+				<input type="hidden" name="input-comment-slug" id="input-comment-slug" value="{{ topic.slug }}">
+				<div class="text-end mt-2">
+					<button class="btn btn-primary" type="submit" name="input-submit">ثبت پاسخ</button>
+				</div>
+	    	</form>
+	    	{% endif %}
+	    	{% if comments %}
+	    	<!--  Comments  -->
+			{% for comment in comments %}
+			<!--  Comment Item  -->
+			<div class="container-fluid container-md border p-3 rounded mt-3 fw-bold">
+				<!--  Comment Info  -->
+				<i class="fa fa-user"></i> {{ comment.user.first_name }} {{ comment.user.last_name }} گفته است : ( در {{ comment.date }} )<hr>
+				<!--  Comemnt Body  -->
+				<div class="fw-normal ql-editor reset-size-editor p-1" dir="ltr">
+					{{ comment.comment|safe }}
+				</div>
+			</div>
+			{% endfor %}
+			{% else %}
+			<div class="alert alert-primary mt-3">نظری وجود ندارد. شما اولین نفر باشید!</div>
+			{% endif %}
+		</section>
+	</main>	
+{% endblock %}
+{% block scripts %}
+<!--  Scripts For Input Comment And etg ( Math and Editor and Validate and Show )  -->
+<script type="text/javascript" src="{% static 'scripts/editor.js' %}"></script>
+<script type="text/javascript" src="{% static 'scripts/custom.js' %}"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.15.2/dist/katex.min.js"></script>
+<script>
+	var iamges = document.querySelectorAll('main img');
+	Array.prototype.slice.call(iamges).forEach(function (image) {
+		image.style.width = '100%';
+    })
+</script>
+{% endblock %}

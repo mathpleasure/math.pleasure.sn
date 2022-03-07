@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}مقالات{% endblock %}
+{% block content %}
+	<main class="p-3 pt-1 my-3">
+		<!--  Search For Article  -->
+		<form class="input-group w-75 mx-auto mb-3" action="{% url 'search-article' %}" autocomplete="off">
+			<button type="submit" class="input-group-text btn btn-outline-success">جستجو</button>
+			<input class="form-control" type="search" name="search-input" id="search-input" placeholder="در مقالات جستجو کنید ...">
+		</form>
+		<div class=" card-group row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-2">
+			<!--  Articles List  -->
+			{% for article in articles %}
+			<!--  Article Item  -->
+	  		<div class="col">
+	    		<div class="card h-100">
+	    			<!--  Image Article  -->
+	      			<img src="{{ article.image.url }}" class="card-img-top" alt="{{ article.image.url }}">
+	      			<!--  Title and Link  -->
+	      			<div class=" card-body">
+	        			<h2 class="fw-bold text-justify m-0 fs-6 pointer">
+	        				<a class="text-decoration-none text-dark" href="{% url 'article' slug=article.slug %}">{{ article.title }}</a>
+	        			</h2>
+	      			</div>
+	      			{% if user.is_authenticated and user.username == article.user.username %}
+	      			<div class="card-footer p-0">
+	      				<!--  Form Edit  -->
+	      				<small class="text-muted">
+	  						<form class="d-inline mb-2 pointer" method="POST" action="{% url 'edit-article' %}" name="edit-article">
+	  							{% csrf_token %}
+	  							<input type="hidden" name="get-article" id="get-article" value="{{ article.title }}">
+	  							<button class="btn bg-transparent border-0 text-reset" type="submit"><i class="fa fa-pen"></i> ویرایش مقاله</button>
+	  						</form>
+						</small>
+	      			</div>
+	      			{% else %}
+	      			<div class="card-footer">
+	      				<!--  Info Article  -->
+	      				<small class="text-muted">
+							نویسنده : {{ article.user.first_name }} {{ article.user.last_name }} | 
+							بازدید ها : {{ article.view_count }}
+						</small>
+	      			</div>
+	      			{% endif %}
+	    		</div>
+	  		</div>
+	  		{% endfor %}
+		</div>
+	</main>
+{% endblock %}

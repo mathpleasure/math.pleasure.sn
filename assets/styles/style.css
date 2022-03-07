@@ -1,0 +1,27 @@
+@charset "UTF-8";
+@font-face { font-family: 'WEB'; src: url("../webfonts/iran-sans-web.woff2") format("woff2");}
+* { padding: 0; margin: 0; box-sizing: border-box; font-family: 'WEB'; }
+body { overflow-x: hidden; }
+main, .contain { min-height: 500px !important; }
+label, .pointer { cursor: pointer !important; }
+footer { background: #051367; }
+header { background-color: #fff; }
+header .nav-item:hover { font-size: 1.2rem; }
+
+.email-size { font-size: .8rem; }
+.reset-size-editor { white-space: unset !important; }
+.brand-images { width: 3rem; }
+.image-small { width: 2rem; }
+.dropdown-toggle::after { display: none; }
+.size-small-icon { font-size: .5rem; }
+.text-justify { text-align: justify; line-height: 1.7rem; }
+.text-area-size { min-height: 200px !important; max-height: 300px !important; }
+
+#calculator { color: #fff; background-color: #1D293A; }
+#calculator #calculate { background-color: #5C708E !important; }
+#calculator > #buttons button { 
+	font-size: .75rem;
+	color: #fff; 
+	background-color: #354357; 
+	padding: .3rem 0;
+}

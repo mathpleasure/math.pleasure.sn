@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}ارتباط با ما{% endblock %}
+{% block content %}
+<main class="container-fluid row row-cols-1 row-cols-md-2 justify-content-center align-items-center m-0 g-0 mb-4 px-3 g-md-4 mt-md-1">
+    <!--  Contact With Us  -->
+    <div class="border-0 order-last order-md-first">
+        <div class="modal-content rounded-5 shadow">
+            <!--  Contact  -->
+            <div class="modal-header py-5 px-sm-5 pb-4 border-bottom-0">
+              <h2 class="fw-bold mb-0">ارتباط با ما</h2>
+            </div>
+            <div class="modal-body py-5 px-sm-5 pt-0">
+                <!--  Form For Sunbmit Messages  -->
+                <form class="needs-validation" novalidate method="POST" name="contact" action="{% url 'contact' %}" autocomplete="off">
+                    {% csrf_token %}
+                    {% if error %}
+                    <!--  Error For Data -->
+                    <p class="text-danger mb-2">{{ error }}</p>
+                    {% endif %}
+                    <!--  Email Input  -->
+                    <div class="form-floating mb-3">
+                        <input type="email" class="form-control rounded-4" name="input-email" id="input-email" placeholder="ایمیل خود را اینجا وارد کنید" maxlength="32" dir="ltr" required>
+                        <label for="input-email">ایمیل</label>
+                        <div class="invalid-feedback mt-2">
+                            لطفا ایمیل خود را درست وارد کنید.
+                        </div>
+                    </div>
+                    <!--  Comment Input  -->
+                    <div class="form-floating my-3">
+                        <textarea class="form-control rounded-4 text-area-size" name="input-comment" id="input-comment" placeholder="لطفا نظر خود را اینجا وارد کنید" dir="ltr" maxlength="200" required></textarea>
+                        <label for="input-comment">نظر شما</label>
+                        <div class="invalid-feedback mt-2">
+                            لطفا نظر خود را درست وارد کنید.
+                        </div>
+                    </div>
+                    <!--  File Input  -->
+                    <div class="form-group my-3">
+                        <label for="input-file" class="form-label">پیوست فایل</label>
+                        <input type="file" class="form-control rounded-4" name="input-file" id="input-file" placeholder="لطفا فایلی را پیوست کنید.">
+                    </div>
+                    <!--  Submit Button  -->
+                    <button class="w-100 mb-2 btn btn-lg rounded-4 btn-primary" type="submit" name="submit" value="input-submit">ارسال نظر</button>
+                    <small class="text-muted text-justify">نتیجه نظرات ارزشمند شما پس از بررسی از طریق ایمیل پشتیبانی برای شما ارسال خواهد شد. ممنون از اینکه نظر خود را با ما در میان گذاشتید.</small>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="order-first order-md-last">
+        <!--  Support Image  -->
+        <img src="{% static 'images/Support.png' %}" alt="Support" class="w-100">
+    </div>
+</main>
+{% endblock %}
+{% block scripts %}
+<!--  Script For Validate  -->
+<script type="text/javascript" src="{% static 'scripts/validate.js' %}"></script>
+{% endblock %}

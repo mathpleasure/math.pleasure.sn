@@ -1,0 +1,71 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}ویرایش اطلاعات کاربری{%endblock %}
+{% block content %}
+<main class="container-fluid row row-cols-1 row-cols-md-2 justify-content-center align-items-center m-0 g-0 mb-4 px-3 g-md-4 mt-md-1">
+    <div class="order-last order-md-first">
+        <div class="modal-content rounded-5 shadow">
+            <!--  Sign-Up  -->
+    		<div class="modal-header py-5 px-sm-5 pb-4 border-bottom-0">
+      		    <h2 class="fw-bold mb-0">ویرایش اطلاعات</h2>
+    		</div>
+    	    <div class="modal-body py-5 px-sm-5 pt-0">
+                <!--  Form For Sign-Up  -->
+      		    <form class="needs-validation" novalidate method="POST" name="edit-profile" action="{% url 'edit-profile' %}" autocomplete="off">
+                    {% csrf_token %}
+                    {% if error %}
+                    <!--  Error  -->
+                    <p class="text-danger mb-2">{{ error }}</p>
+                    {% endif %}
+                    <!--  Input First Name  -->
+                    <div class="form-floating mb-3">
+                        <input type="text" class="form-control rounded-4" name="input-firstname" id="input-firstname" placeholder="نام خود را اینجا وارد کنید" maxlength="32" value="{{ user.first_name }}" required>
+                        <label for="input-firstname">نام</label>
+                        <div class="invalid-feedback mt-2">
+                            لطفا نام خود را درست وارد کنید.
+                        </div>
+                    </div>
+                    <!--  Input Last Name  -->
+                    <div class="form-floating mb-3">
+                        <input type="text" class="form-control rounded-4" name="input-lastname" id="input-lastname" placeholder="نام و نام خانوادگی خود را اینجا وارد کنید" maxlength="32" value="{{ user.last_name }}" required>
+                        <label for="input-lastname">نام خانوادگی</label>
+                        <div class="invalid-feedback mt-2">
+                            لطفا نام خانوادگی خود را درست وارد کنید.
+                        </div>
+                    </div>
+                    <!--  Input User Name  -->
+                    <input type="hidden" name="input-username" id="input-username" value="{{ user.username }}" required>
+                    <!--  Input Email  -->
+                    <div class="form-floating mb-3">
+                        <input type="email" class="form-control rounded-4" name="input-email" id="input-email" placeholder="ایمیل خود را اینجا وارد کنید" maxlength="32" dir="ltr" value={{ user.email }} required>
+                        <label for="input-email">ایمیل</label>
+                        <div class="invalid-feedback mt-2">
+                            لطفا ایمیل خود را درست وارد کنید.
+                        </div>
+                    </div>
+                    <!--  Input Password  -->
+                    <div class="form-floating mb-3">
+                        <input type="password" class="form-control rounded-4" name="input-pass" id="input-pass" placeholder="گذرواژه خود را اینجا وارد کنید" dir="ltr" maxlength="32" required>
+                        <label for="input-pass">گذرواژه</label>
+                        <div class="invalid-feedback mt-2">
+                            لطفا گذرواژه خود را درست وارد کنید.
+                        </div>
+                    </div>
+                    <!--  Submit Button  -->
+                    <button class="w-100 mb-2 btn btn-lg rounded-4 btn-primary" type="submit" name="submit" value="input-submit">ویرایش اطلاعات</button>
+                    <!--  Statute For Sign-Up  -->
+                    <small class="text-muted">نام کاربری شناسه شما بوده و غیر قابل ویرایش است.</small>
+                </form>
+            </div>
+        </div>
+    </div>
+     <div class="order-first order-md-last">
+        <!--  Sign Up Image  -->
+        <img src="{% static 'images/Edit.png' %}" alt="Edit" class="w-100 img-fluid">
+    </div>
+</main>
+{% endblock %}
+{% block scripts %}
+<!--  Script For Validate  -->
+<script type="text/javascript" src="{% static 'scripts/validate.js' %}"></script>
+{% endblock %}
